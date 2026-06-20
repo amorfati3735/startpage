@@ -4,6 +4,8 @@ export interface Shortcut {
   id: string;
   url: string;
   label: string;
+  iconType?: 'favicon' | 'lucide' | 'custom';
+  iconValue?: string; // lucide icon name or base64 image data
 }
 
 export interface Settings {
@@ -30,9 +32,7 @@ export interface Settings {
   // Quotes & Greeting
   showGreeting: boolean;
   showQuote: boolean;
-  quoteCategory: 'All' | 'Motivational' | 'Self Care';
   customQuotes: string; // newline separated
-  useOnlyCustomQuotes: boolean;
   
   // Timer
   focusDuration: number;
@@ -64,9 +64,7 @@ export const defaultSettings: Settings = {
   clockSeconds: false,
   showGreeting: true,
   showQuote: true,
-  quoteCategory: 'All',
   customQuotes: '',
-  useOnlyCustomQuotes: false,
   focusDuration: 25,
   breakDuration: 5,
   showShortcuts: true,

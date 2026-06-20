@@ -10,53 +10,6 @@ import { defaultSettings, Mode, Settings } from './types';
 import { ListTodo, PenTool, Timer as TimerIcon, Settings as SettingsIcon, Monitor, Focus, Ghost } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 
-const QUOTES_BUILTIN = {
-  Motivational: [
-    "The only way to do great work is to love what you do.",
-    "Do what you can, with what you have, where you are.",
-    "It always seems impossible until it's done.",
-    "Everything you've ever wanted is on the other side of fear.",
-    "Act as if what you do makes a difference. It does.",
-    "Success is not final, failure is not fatal: it is the courage to continue that counts.",
-    "Believe you can and you're halfway there.",
-    "Your limitation—it's only your imagination.",
-    "Push yourself, because no one else is going to do it for you.",
-    "Sometimes later becomes never. Do it now.",
-    "Great things never come from comfort zones.",
-    "Dream it. Wish it. Do it.",
-    "Success doesn't just find you. You have to go out and get it.",
-    "The harder you work for something, the greater you'll feel when you achieve it.",
-    "Dream bigger. Do bigger.",
-    "Don't stop when you're tired. Stop when you're done.",
-    "Wake up with determination. Go to bed with satisfaction.",
-    "Do something today that your future self will thank you for.",
-    "Little things make big days.",
-    "It's going to be hard, but hard does not mean impossible."
-  ],
-  'Self Care': [
-    "Almost everything will work again if you unplug it for a few minutes.",
-    "Talk to yourself like you would to someone you love.",
-    "Rest is not idleness.",
-    "You can't pour from an empty cup.",
-    "Self-care is how you take your power back.",
-    "Breathe. Let go. And remind yourself that this very moment is the only one you know you have for sure.",
-    "Knowing how to be solitary is central to the art of loving.",
-    "Nourishing yourself in a way that helps you blossom in the direction you want to go is attainable.",
-    "Caring for myself is not self-indulgence, it is self-preservation.",
-    "It is not the mountain we conquer but ourselves.",
-    "Your mind will answer most questions if you learn to relax and wait for the answer.",
-    "Time you enjoy wasting is not wasted time.",
-    "You yourself, as much as anybody in the entire universe, deserve your love and affection.",
-    "To love oneself is the beginning of a lifelong romance.",
-    "Sometimes the most productive thing you can do is relax.",
-    "Take time to do what makes your soul happy.",
-    "Self-discipline is self-care.",
-    "It's okay to take time for yourself.",
-    "Forgive yourself for not knowing what you didn't know before you learned it.",
-    "Protect your peace."
-  ]
-};
-
 export default function App() {
   const [settings, setSettings] = useLocalStorage<Settings>('dashboard_settings', defaultSettings);
   const [mode, setMode] = useLocalStorage<Mode>('dashboard_mode', 'home');
@@ -105,17 +58,7 @@ export default function App() {
     }
   }, [mode]);
 
-  let allQuotes: string[] = [];
-  const customList = (settings.customQuotes || '').split('\\n').map(l => l.trim()).filter(Boolean);
-  
-  if (settings.useOnlyCustomQuotes && customList.length > 0) {
-    allQuotes = customList;
-  } else {
-    const builtin = settings.quoteCategory === 'All' 
-       ? [...QUOTES_BUILTIN.Motivational, ...QUOTES_BUILTIN['Self Care']] 
-       : QUOTES_BUILTIN[settings.quoteCategory as keyof typeof QUOTES_BUILTIN] || QUOTES_BUILTIN.Motivational;
-    allQuotes = [...builtin, ...customList];
-  }
+  let allQuotes: string[] = (settings.customQuotes || '').split('\n').map(l => l.trim()).filter(Boolean);
 
   const hash = new Date().toDateString().split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
   let todaysQuote = "";
@@ -249,7 +192,7 @@ export default function App() {
           )}
 
           {settings.showTimerBtn && (
-            <div className="relative z-50">
+            <div className="relative z-[120]">
               <button 
                 onClick={() => togglePanel('timer')} 
                 className={`p-4 transition-all rounded-3xl glass-panel shadow-2xl group ${activePanel === 'timer' && !isFocusMode ? 'bg-white/20 text-accent border-accent/40 shadow-[0_0_20px_rgba(116,50,255,0.3)]' : 'hover:bg-white/10 text-white/70 hover:text-white pointer-events-auto'}`} 
@@ -261,7 +204,7 @@ export default function App() {
                 {activePanel === 'timer' && (
                   <motion.div 
                     initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} 
-                    className={isFocusMode ? "fixed top-[65%] left-1/2 -translate-x-1/2 -translate-y-1/2 mt-10 z-[100] bg-transparent pointer-events-auto scale-[1.3] drop-shadow-2xl" : "absolute bottom-[120%] left-0 glass-panel p-8 rounded-[2rem] z-50 shadow-2xl"}
+                    className={isFocusMode ? "fixed top-[60%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] bg-transparent pointer-events-auto scale-110 drop-shadow-2xl" : "absolute bottom-[120%] left-0 glass-panel p-8 rounded-[2rem] z-50 shadow-2xl"}
                   >
                     <Timer defaultFocus={settings.focusDuration} defaultBreak={settings.breakDuration} isFocusMode={isFocusMode} />
                   </motion.div>
@@ -272,7 +215,7 @@ export default function App() {
         </div>
 
         {/* Bottom Center Mode Toggles */}
-        <div className={`absolute bottom-6 left-1/2 -translate-x-1/2 md:bottom-12 flex space-x-2 md:space-x-4 transition-opacity duration-700 glass-panel px-6 py-4 rounded-full shadow-2xl z-40 ${mode === 'ambient' ? 'opacity-0 hover:opacity-100' : 'opacity-100'}`}>
+        <div className={`absolute bottom-6 left-1/2 -translate-x-1/2 md:bottom-12 flex space-x-2 md:space-x-4 transition-opacity duration-700 glass-panel px-6 py-4 rounded-full shadow-2xl z-[150] ${mode === 'ambient' ? 'opacity-0 hover:opacity-100' : 'opacity-100'}`}>
           <button onClick={() => setMode('home')} className={`p-2 transition-all hover:scale-110 rounded-full ${mode === 'home' ? 'text-accent bg-accent/20' : 'text-white/40 hover:text-white hover:bg-white/10'}`} title="Desktop View">
             <Monitor size={20} />
           </button>

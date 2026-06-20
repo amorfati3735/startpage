@@ -13,11 +13,11 @@ const FONTS = [
 function Toggle({ checked, onChange, label }: { checked: boolean, onChange: (v: boolean) => void, label: string }) {
   return (
     <label className="flex items-center justify-between cursor-pointer py-3 group">
-      <span className="text-[11px] uppercase text-white/60 tracking-widest group-hover:text-white transition-colors flex-1 pr-4 leading-relaxed">{label}</span>
-      <div className="relative shrink-0">
+      <span className="text-[11px] uppercase text-white/60 tracking-widest group-hover:text-white transition-colors flex-1 pr-4 leading-relaxed font-medium">{label}</span>
+      <div className="relative shrink-0 flex items-center">
         <input type="checkbox" className="sr-only" checked={checked} onChange={e => onChange(e.target.checked)} />
-        <div className={`block w-12 h-6 rounded-full transition-colors duration-300 ${checked ? 'bg-accent' : 'bg-white/10 group-hover:bg-white/20'}`}></div>
-        <div className={`dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 ${checked ? 'translate-x-6' : ''}`}></div>
+        <div className={`block w-11 h-6 rounded-full transition-colors duration-300 ${checked ? 'bg-accent' : 'bg-white/20'}`}></div>
+        <div className={`absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 ${checked ? 'translate-x-[20px]' : ''}`}></div>
       </div>
     </label>
   );
@@ -25,12 +25,21 @@ function Toggle({ checked, onChange, label }: { checked: boolean, onChange: (v: 
 
 function Slider({ label, value, min, max, unit, onChange }: { label: string, value: number, min: number, max: number, unit?: string, onChange: (v: number) => void }) {
   return (
-    <div className="py-2">
-      <div className="flex justify-between mb-3 text-[11px] uppercase tracking-widest">
-        <label className="text-white/60">{label}</label>
+    <div className="py-2 w-full">
+      <div className="flex justify-between mb-3 text-[10px] md:text-[11px] uppercase tracking-widest">
+        <label className="text-white/60 font-medium">{label}</label>
         <span className="text-accent font-bold">{value}{unit}</span>
       </div>
-      <input type="range" min={min} max={max} value={value} onChange={e => onChange(Number(e.target.value))} className="w-full accent-accent h-2.5 bg-white/10 appearance-none rounded-full cursor-pointer hover:bg-white/20 transition-colors" />
+      <div className="relative flex items-center w-full min-h-[24px]">
+        <input 
+          type="range" 
+          min={min} 
+          max={max} 
+          value={value} 
+          onChange={e => onChange(Number(e.target.value))} 
+          className="w-full h-1.5 bg-white/20 rounded-full appearance-none cursor-pointer accent-accent outline-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-accent [&::-webkit-slider-thumb]:rounded-full [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:bg-accent [&::-moz-range-thumb]:border-none [&::-moz-range-thumb]:rounded-full" 
+        />
+      </div>
     </div>
   );
 }
@@ -99,26 +108,37 @@ export function SettingsDrawer({
   return (
     <motion.div 
       initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-      className="fixed right-0 top-0 bottom-0 w-full sm:w-[500px] glass-panel p-6 md:p-10 flex flex-col z-50 overflow-y-auto custom-scrollbar"
+      className="fixed inset-y-0 right-0 w-full sm:w-[500px] bg-neutral-950/95 backdrop-blur-3xl border-l border-white/10 flex flex-col z-50 shadow-2xl"
     >
-      <div className="flex justify-between items-center mb-8 sticky top-0 bg-black/60 backdrop-blur-xl p-4 -mt-6 -mx-6 md:-mt-10 md:-mx-10 border-b border-white/5 z-20">
-        <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-white flex items-center gap-3"><Cog size={16} className="text-accent"/> Config</h2>
-        <button onClick={onClose} className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white/50 hover:text-white transition-colors"><X size={20} /></button>
+      {/* Header */}
+      <div className="flex-shrink-0 flex justify-between items-center p-6 border-b border-white/10">
+        <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-white flex items-center gap-3">
+          <Cog size={16} className="text-accent"/> Config
+        </h2>
+        <button onClick={onClose} className="p-2 bg-white/5 hover:bg-white/10 rounded-full text-white/50 hover:text-white transition-colors">
+          <X size={18} />
+        </button>
       </div>
 
-      <div className="flex space-x-2 mb-10 overflow-x-auto pb-4 scrollbar-hide hide-scroll gap-2 sticky top-14 z-10 bg-black/40 backdrop-blur-md p-2 -mx-2 rounded-2xl">
-        {['Appearance', 'Personal', 'Timer', 'Layout', 'Backup'].map(t => (
-          <button 
-            key={t} 
-            onClick={() => setTab(t as any)}
-            className={`whitespace-nowrap px-5 py-3 rounded-full text-[10px] sm:text-xs uppercase tracking-widest transition-all font-bold ${tab === t ? 'bg-white text-black shadow-lg shadow-white/20' : 'bg-white/5 text-white/50 hover:bg-white/15 hover:text-white'}`}
-          >
-            {t}
-          </button>
-        ))}
+      {/* Tabs Row */}
+      <div className="flex-shrink-0 border-b border-white/5">
+        <div className="flex space-x-2 overflow-x-auto scrollbar-hide p-4">
+          {['Appearance', 'Personal', 'Timer', 'Layout', 'Backup'].map(t => (
+            <button 
+              key={t} 
+              onClick={() => setTab(t as any)}
+              className={`flex-shrink-0 px-5 py-2.5 rounded-full text-[10px] md:text-xs uppercase tracking-widest font-bold transition-all ${
+                tab === t ? 'bg-white text-black drop-shadow-md' : 'bg-white/5 text-white/50 hover:bg-white/10 hover:text-white'
+              }`}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
       </div>
 
-      <div className="flex-1">
+      {/* Scrollable Content */}
+      <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar">
         {tab === 'Appearance' && (
           <div className="space-y-12 animate-in fade-in slide-in-from-right-4 duration-300 pb-20">
             
@@ -156,29 +176,35 @@ export function SettingsDrawer({
               )}
 
               {settings.bgType === 'solid' && (
-                 <div className="flex items-center gap-4 bg-white/5 p-5 rounded-2xl border border-white/5">
-                   <input type="color" value={settings.bgSolidColor} onChange={e => setSettings({ ...settings, bgSolidColor: e.target.value })} className="w-12 h-12 rounded-xl cursor-pointer shrink-0 bg-transparent border-none p-0" />
-                   <span className="text-sm uppercase tracking-widest text-white/60 font-bold">{settings.bgSolidColor}</span>
+                 <div className="flex items-center gap-4 bg-white/5 p-5 rounded-2xl border border-white/5 mt-4">
+                   <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-white/20 shrink-0 shadow-inner">
+                     <input type="color" value={settings.bgSolidColor ?? '#0a0a0a'} onChange={e => setSettings({ ...settings, bgSolidColor: e.target.value })} className="absolute -inset-4 w-20 h-20 cursor-pointer p-0 border-none" />
+                   </div>
+                   <span className="text-sm uppercase tracking-widest text-white/80 font-mono font-bold">{settings.bgSolidColor ?? '#0a0a0a'}</span>
                  </div>
               )}
 
               {settings.bgType === 'gradient' && (
-                 <div className="space-y-5 bg-white/5 p-5 rounded-2xl border border-white/5">
-                   <div className="flex items-center gap-6">
-                     <div className="flex flex-col gap-2">
-                       <label className="text-[10px] text-white/50 uppercase tracking-widest font-bold">Color 1</label>
-                       <input type="color" value={settings.bgGradientStart} onChange={e => setSettings({ ...settings, bgGradientStart: e.target.value })} className="w-12 h-12 rounded-xl cursor-pointer shrink-0 bg-transparent border-none p-0" />
+                 <div className="bg-white/5 p-5 rounded-2xl border border-white/5 mt-4">
+                   <div className="flex items-center flex-wrap gap-6">
+                     <div className="flex flex-col gap-3">
+                       <label className="text-[10px] text-white/50 uppercase tracking-widest font-bold">Start Color</label>
+                       <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-white/20 shrink-0 shadow-inner">
+                         <input type="color" value={settings.bgGradientStart ?? '#7432FF'} onChange={e => setSettings({ ...settings, bgGradientStart: e.target.value })} className="absolute -inset-4 w-20 h-20 cursor-pointer p-0 border-none" />
+                       </div>
                      </div>
-                     <div className="flex flex-col gap-2">
-                       <label className="text-[10px] text-white/50 uppercase tracking-widest font-bold">Color 2</label>
-                       <input type="color" value={settings.bgGradientEnd} onChange={e => setSettings({ ...settings, bgGradientEnd: e.target.value })} className="w-12 h-12 rounded-xl cursor-pointer shrink-0 bg-transparent border-none p-0" />
+                     <div className="flex flex-col gap-3">
+                       <label className="text-[10px] text-white/50 uppercase tracking-widest font-bold">End Color</label>
+                       <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-white/20 shrink-0 shadow-inner">
+                         <input type="color" value={settings.bgGradientEnd ?? '#000000'} onChange={e => setSettings({ ...settings, bgGradientEnd: e.target.value })} className="absolute -inset-4 w-20 h-20 cursor-pointer p-0 border-none" />
+                       </div>
                      </div>
-                     <div className="flex flex-col gap-2 w-full pl-6 border-l border-white/10">
-                       <label className="text-[10px] text-white/50 uppercase tracking-widest font-bold mb-1">Direction</label>
-                       <select value={settings.bgGradientDir} onChange={e => setSettings({ ...settings, bgGradientDir: e.target.value })} className="bg-black/50 border border-white/10 text-xs py-3 px-4 rounded-xl cursor-pointer hover:bg-white/5 transition-colors">
-                         <option value="to right">Left to Right</option>
-                         <option value="to bottom">Top to Bottom</option>
-                         <option value="135deg">Diagonal</option>
+                     <div className="flex flex-col gap-3 w-full sm:w-auto sm:flex-1 sm:pl-6 sm:border-l border-white/10 mt-2 sm:mt-0">
+                       <label className="text-[10px] text-white/50 uppercase tracking-widest font-bold">Direction</label>
+                       <select value={settings.bgGradientDir ?? 'to right'} onChange={e => setSettings({ ...settings, bgGradientDir: e.target.value })} className="bg-white/5 border border-white/10 text-xs py-3 px-4 rounded-xl cursor-pointer hover:bg-white/10 transition-colors focus:outline-none focus:border-accent">
+                         <option value="to right" className="bg-black text-white">Left to Right</option>
+                         <option value="to bottom" className="bg-black text-white">Top to Bottom</option>
+                         <option value="135deg" className="bg-black text-white">Diagonal</option>
                        </select>
                      </div>
                    </div>
@@ -187,8 +213,8 @@ export function SettingsDrawer({
 
               {settings.bgType !== 'dark' && (
                 <div className="space-y-4 pt-4">
-                  <Slider label="Background Blur" value={settings.bgBlur} min={0} max={60} unit="px" onChange={v => setSettings({ ...settings, bgBlur: v })} />
-                  <Slider label="Dim Overlay" value={settings.bgOverlay} min={0} max={100} unit="%" onChange={v => setSettings({ ...settings, bgOverlay: v })} />
+                  <Slider label="Background Blur" value={settings.bgBlur ?? 0} min={0} max={60} unit="px" onChange={v => setSettings({ ...settings, bgBlur: v })} />
+                  <Slider label="Dim Overlay" value={settings.bgOverlay ?? 50} min={0} max={100} unit="%" onChange={v => setSettings({ ...settings, bgOverlay: v })} />
                 </div>
               )}
             </div>
@@ -196,12 +222,14 @@ export function SettingsDrawer({
             <div className="space-y-6">
               <h3 className="text-accent text-[10px] uppercase tracking-[0.2em] font-bold border-b border-white/10 pb-2">Clock Appearance</h3>
               
-              <Slider label="Clock Size" value={settings.clockFontSize} min={4} max={30} unit="vw" onChange={v => setSettings({ ...settings, clockFontSize: v })} />
+              <Slider label="Clock Size" value={settings.clockFontSize ?? 12} min={4} max={30} unit="vw" onChange={v => setSettings({ ...settings, clockFontSize: v })} />
               
-              <div className="flex items-center gap-6 bg-white/5 p-5 rounded-2xl border border-white/5">
-                <input type="color" value={settings.clockColor} onChange={e => setSettings({ ...settings, clockColor: e.target.value })} className="w-12 h-12 rounded-xl cursor-pointer shrink-0 bg-transparent border-none p-0" />
+              <div className="flex items-center gap-6 bg-white/5 p-5 rounded-2xl border border-white/5 mt-4">
+                <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-white/20 shrink-0 shadow-inner">
+                  <input type="color" value={settings.clockColor ?? '#ffffff'} onChange={e => setSettings({ ...settings, clockColor: e.target.value })} className="absolute -inset-4 w-20 h-20 cursor-pointer p-0 border-none" />
+                </div>
                 <div className="flex-1 pr-2">
-                  <Slider label="Fill Opacity" value={settings.clockOpacity} min={10} max={100} unit="%" onChange={v => setSettings({ ...settings, clockOpacity: v })} />
+                  <Slider label="Fill Opacity" value={settings.clockOpacity ?? 90} min={10} max={100} unit="%" onChange={v => setSettings({ ...settings, clockOpacity: v })} />
                 </div>
               </div>
 
@@ -234,10 +262,10 @@ export function SettingsDrawer({
         {tab === 'Personal' && (
           <div className="space-y-12 animate-in fade-in slide-in-from-right-4 duration-300">
             <div className="space-y-6">
-              <h3 className="text-accent text-[10px] uppercase tracking-[0.2em] font-bold border-b border-white/10 pb-2">Identity</h3>
+              <h3 className="text-accent text-[10px] uppercase tracking-[0.2em] font-bold border-b border-white/10 pb-2">Personal</h3>
               <div>
-                <label className="block text-[11px] uppercase text-white/60 tracking-widest font-bold mb-3">Your Designation</label>
-                <input type="text" value={settings.name} onChange={e => setSettings({ ...settings, name: e.target.value })} className="w-full bg-white/5 border border-white/5 p-5 rounded-2xl text-lg uppercase tracking-wider focus:bg-white/10 focus:border-accent/50 transition-all" placeholder="Enter name" />
+                <label className="block text-[11px] uppercase text-white/60 tracking-widest font-bold mb-3">Name</label>
+                <input type="text" value={settings.name} onChange={e => setSettings({ ...settings, name: e.target.value })} className="w-full bg-white/5 border border-white/5 p-5 rounded-2xl text-lg uppercase tracking-wider focus:bg-white/10 focus:outline-none focus:border-accent/50 transition-all placeholder-white/20" placeholder="Enter name" />
               </div>
               <div className="bg-white/5 p-4 rounded-2xl border border-white/5">
                 <Toggle label="Show Greeting Line" checked={settings.showGreeting} onChange={v => setSettings({ ...settings, showGreeting: v })} />
@@ -245,31 +273,21 @@ export function SettingsDrawer({
             </div>
             
             <div className="space-y-6">
-              <h3 className="text-accent text-[10px] uppercase tracking-[0.2em] font-bold border-b border-white/10 pb-2">Inspiration</h3>
+              <h3 className="text-accent text-[10px] uppercase tracking-[0.2em] font-bold border-b border-white/10 pb-2">Quotes</h3>
               <div className="bg-white/5 p-4 rounded-2xl border border-white/5">
                 <Toggle label="Show Daily Quote" checked={settings.showQuote} onChange={v => setSettings({ ...settings, showQuote: v })} />
               </div>
               
               <div className={`transition-opacity duration-300 ${!settings.showQuote ? 'opacity-30 pointer-events-none' : 'opacity-100'}`}>
-                <label className="block text-[11px] uppercase text-white/60 tracking-widest font-bold mb-3 mt-6">Built-in Rotation</label>
-                <select value={settings.quoteCategory} onChange={e => setSettings({ ...settings, quoteCategory: e.target.value as any })} className="w-full bg-white/5 border border-white/5 p-5 rounded-2xl text-sm uppercase tracking-wider focus:bg-white/10 focus:border-accent/50 cursor-pointer transition-all">
-                  <option value="All" className="bg-black text-white">All Spheres</option>
-                  <option value="Motivational" className="bg-black text-white">Motivation / Drive</option>
-                  <option value="Self Care" className="bg-black text-white">Self Care / Zen</option>
-                </select>
-
-                <div className="mt-10 space-y-4">
-                  <label className="block text-[11px] uppercase text-white/60 tracking-widest font-bold">My Arsenal (Custom)</label>
-                  <p className="text-[10px] text-white/40 uppercase tracking-wider leading-relaxed">Enter one quote per line. These inject into the general rotation.</p>
+                <div className="mt-6 space-y-4">
+                  <label className="block text-[11px] uppercase text-white/60 tracking-widest font-bold">My Quotes</label>
+                  <p className="text-[10px] text-white/40 uppercase tracking-wider leading-relaxed">Enter one quote per line. A random quote will be picked from this list every day.</p>
                   <textarea 
-                    value={settings.customQuotes} 
+                    value={settings.customQuotes || ''} 
                     onChange={e => setSettings({ ...settings, customQuotes: e.target.value })} 
-                    className="w-full h-40 bg-white/5 border border-white/5 p-5 rounded-2xl text-sm leading-relaxed focus:bg-white/10 focus:border-accent/50 resize-none transition-all placeholder-white/20"
-                    placeholder={"First custom quote\nSecond custom quote"}
+                    className="w-full h-56 bg-white/5 border border-white/5 p-5 rounded-2xl text-sm leading-relaxed focus:bg-white/10 focus:outline-none focus:border-accent/50 resize-none transition-all placeholder-white/20 custom-scrollbar"
+                    placeholder={"First quote\nSecond quote"}
                   />
-                  <div className="mt-4 bg-white/5 p-4 rounded-2xl border border-white/5">
-                    <Toggle label="Only Use Custom Quotes" checked={settings.useOnlyCustomQuotes} onChange={v => setSettings({ ...settings, useOnlyCustomQuotes: v })} />
-                  </div>
                 </div>
               </div>
             </div>
@@ -278,13 +296,13 @@ export function SettingsDrawer({
 
         {tab === 'Timer' && (
           <div className="space-y-10 animate-in fade-in slide-in-from-right-4 duration-300">
-            <h3 className="text-accent text-[10px] uppercase tracking-[0.2em] font-bold border-b border-white/10 pb-2">Session Tuning</h3>
+            <h3 className="text-accent text-[10px] uppercase tracking-[0.2em] font-bold border-b border-white/10 pb-2">Session Settings</h3>
             <div className="space-y-6">
               <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-                <Slider label="Focus Pipeline Length" value={settings.focusDuration} min={1} max={120} unit="m" onChange={v => setSettings({ ...settings, focusDuration: v })} />
+                <Slider label="Focus Duration" value={settings.focusDuration ?? 25} min={1} max={120} unit="m" onChange={v => setSettings({ ...settings, focusDuration: v })} />
               </div>
               <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-                <Slider label="Recovery Cycle Length" value={settings.breakDuration} min={1} max={60} unit="m" onChange={v => setSettings({ ...settings, breakDuration: v })} />
+                <Slider label="Break Duration" value={settings.breakDuration ?? 5} min={1} max={60} unit="m" onChange={v => setSettings({ ...settings, breakDuration: v })} />
               </div>
             </div>
           </div>
@@ -292,17 +310,17 @@ export function SettingsDrawer({
 
         {tab === 'Layout' && (
           <div className="space-y-10 animate-in fade-in slide-in-from-right-4 duration-300">
-             <h3 className="text-accent text-[10px] uppercase tracking-[0.2em] font-bold border-b border-white/10 pb-2">Modules</h3>
+             <h3 className="text-accent text-[10px] uppercase tracking-[0.2em] font-bold border-b border-white/10 pb-2">Features</h3>
              <div className="bg-white/5 px-5 py-2 rounded-2xl border border-white/5">
                <Toggle label="Enable Shortcuts Grid" checked={settings.showShortcuts} onChange={v => setSettings({ ...settings, showShortcuts: v })} />
              </div>
              
              <div className="space-y-4 mt-8">
-               <h3 className="text-[10px] uppercase tracking-widest text-white/40 font-bold mb-4">Bottom Dock Nodes</h3>
+               <h3 className="text-[10px] uppercase tracking-widest text-white/40 font-bold mb-4">Bottom Dock Icons</h3>
                <div className="bg-white/5 px-5 py-2 rounded-2xl border border-white/5">
-                 <Toggle label="Tasks Ledger" checked={settings.showTasksBtn} onChange={v => setSettings({ ...settings, showTasksBtn: v })} />
+                 <Toggle label="Tasks" checked={settings.showTasksBtn} onChange={v => setSettings({ ...settings, showTasksBtn: v })} />
                  <div className="w-full h-px bg-white/5" />
-                 <Toggle label="Scratchpad" checked={settings.showNotepadBtn} onChange={v => setSettings({ ...settings, showNotepadBtn: v })} />
+                 <Toggle label="Notepad" checked={settings.showNotepadBtn} onChange={v => setSettings({ ...settings, showNotepadBtn: v })} />
                  <div className="w-full h-px bg-white/5" />
                  <Toggle label="Focus Timer" checked={settings.showTimerBtn} onChange={v => setSettings({ ...settings, showTimerBtn: v })} />
                </div>
@@ -310,7 +328,7 @@ export function SettingsDrawer({
 
              <div className="mt-10">
                <label className="block text-[11px] uppercase text-white/60 tracking-widest font-bold mb-4">Ambient Idle Timeout</label>
-               <select value={settings.ambientIdleTimeout} onChange={e => setSettings({ ...settings, ambientIdleTimeout: Number(e.target.value) })} className="w-full bg-white/5 border border-white/5 p-5 rounded-2xl text-sm uppercase tracking-wider focus:bg-white/10 focus:border-accent/50 cursor-pointer transition-all">
+               <select value={settings.ambientIdleTimeout ?? 300} onChange={e => setSettings({ ...settings, ambientIdleTimeout: Number(e.target.value) })} className="w-full bg-white/5 border border-white/5 p-5 rounded-2xl text-sm uppercase tracking-wider focus:bg-white/10 focus:outline-none focus:border-accent/50 cursor-pointer transition-all">
                  <option value={30} className="bg-black text-white">30 Seconds</option>
                  <option value={60} className="bg-black text-white">1 Minute</option>
                  <option value={120} className="bg-black text-white">2 Minutes</option>
@@ -321,7 +339,7 @@ export function SettingsDrawer({
         )}
 
         {tab === 'Backup' && (
-          <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-300">
+          <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-300 pb-20">
              <h3 className="text-accent text-[10px] uppercase tracking-[0.2em] font-bold border-b border-white/10 pb-2">Persistance Checkpoint</h3>
              <p className="text-xs text-white/60 leading-relaxed font-sans bg-white/5 p-6 rounded-2xl border border-white/5">
                All your configuration, tasks, notes, and shortcuts are stored securely in local browser storage. You can pull an extraction backup to a file, or inject a prior state.
@@ -353,7 +371,6 @@ export function SettingsDrawer({
              </div>
           </div>
         )}
-
       </div>
     </motion.div>
   );
