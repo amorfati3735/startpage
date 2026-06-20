@@ -7,7 +7,7 @@ import { Timer } from './components/Timer';
 import { Shortcuts } from './components/Shortcuts';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { defaultSettings, Mode, Settings } from './types';
-import { ListTodo, PenTool, Timer as TimerIcon, Settings as SettingsIcon, Monitor, Focus, Ghost } from 'lucide-react';
+import { ListTodo, PenTool, Timer as TimerIcon, Settings as SettingsIcon, Monitor, Focus, Ghost, Maximize } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 
 export default function App() {
@@ -216,21 +216,24 @@ export default function App() {
 
         {/* Bottom Center Mode Toggles */}
         <div className={`absolute bottom-6 left-1/2 -translate-x-1/2 md:bottom-12 flex space-x-2 md:space-x-4 transition-opacity duration-700 glass-panel px-6 py-4 rounded-full shadow-2xl z-[150] ${mode === 'ambient' ? 'opacity-0 hover:opacity-100' : 'opacity-100'}`}>
-          <button onClick={() => { setMode('home'); document.fullscreenElement && document.exitFullscreen(); }} className={`p-2 transition-all hover:scale-110 rounded-full ${mode === 'home' ? 'text-accent bg-accent/20' : 'text-white/40 hover:text-white hover:bg-white/10'}`} title="Desktop View">
+          <button onClick={() => setMode('home')} className={`p-2 transition-all hover:scale-110 rounded-full ${mode === 'home' ? 'text-accent bg-accent/20' : 'text-white/40 hover:text-white hover:bg-white/10'}`} title="Desktop View">
             <Monitor size={20} />
           </button>
-          <button onClick={() => { setMode('focus'); setActivePanel('timer'); document.fullscreenElement && document.exitFullscreen(); }} className={`p-2 transition-all hover:scale-110 rounded-full ${mode === 'focus' ? 'text-accent bg-accent/20' : 'text-white/40 hover:text-white hover:bg-white/10'}`} title="Deep Focus">
+          <button onClick={() => { setMode('focus'); setActivePanel('timer'); }} className={`p-2 transition-all hover:scale-110 rounded-full ${mode === 'focus' ? 'text-accent bg-accent/20' : 'text-white/40 hover:text-white hover:bg-white/10'}`} title="Deep Focus">
             <Focus size={20} />
           </button>
-          <button onClick={() => { setMode('ambient'); document.documentElement.requestFullscreen(); }} className={`p-2 transition-all hover:scale-110 rounded-full ${mode === 'ambient' ? 'text-accent bg-accent/20' : 'text-white/40 hover:text-white hover:bg-white/10'}`} title="Ambient">
+          <button onClick={() => setMode('ambient')} className={`p-2 transition-all hover:scale-110 rounded-full ${mode === 'ambient' ? 'text-accent bg-accent/20' : 'text-white/40 hover:text-white hover:bg-white/10'}`} title="Ambient">
             <Ghost size={20} />
           </button>
         </div>
 
-        {/* Bottom Right Settings */}
-        <div className={`absolute bottom-6 right-6 md:bottom-12 md:right-12 transition-opacity duration-700 ${mode !== 'home' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+        {/* Bottom Right Actions */}
+        <div className={`absolute bottom-6 right-6 md:bottom-12 md:right-12 flex space-x-3 transition-opacity duration-700 ${mode !== 'home' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+          <button onClick={() => document.documentElement.requestFullscreen()} className="p-4 text-white/50 hover:text-white glass-panel rounded-3xl transition-all hover:scale-105 group shadow-2xl" title="Fullscreen">
+            <Maximize size={22} className="group-hover:scale-110 transition-transform duration-300" />
+          </button>
           <button onClick={() => setShowSettings(true)} className="p-4 text-white/50 hover:text-white glass-panel rounded-3xl transition-all hover:scale-105 group shadow-2xl" title="Configuration">
-            <SettingsIcon size={24} className="group-hover:rotate-90 transition-transform duration-500" />
+            <SettingsIcon size={22} className="group-hover:rotate-90 transition-transform duration-500" />
           </button>
         </div>
 
