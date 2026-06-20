@@ -48,7 +48,7 @@ export interface Settings {
 
 export const defaultSettings: Settings = {
   name: 'Stranger',
-  bgType: 'dark',
+  bgType: 'gradient',
   bgImage: null,
   bgSolidColor: '#0a0a0a',
   bgGradientStart: '#7432FF',
@@ -62,8 +62,8 @@ export const defaultSettings: Settings = {
   clockOpacity: 90,
   clock12h: false,
   clockSeconds: false,
-  showGreeting: true,
-  showQuote: true,
+  showGreeting: false,
+  showQuote: false,
   customQuotes: '',
   focusDuration: 25,
   breakDuration: 5,

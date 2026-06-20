@@ -25,9 +25,7 @@ export default function App() {
     
     let timer: number;
     const resetIdle = () => {
-      setIdle(false);
       clearTimeout(timer);
-      timer = setTimeout(() => setIdle(true), (settings.ambientIdleTimeout || 300) * 1000) as unknown as number;
     };
     
     window.addEventListener('mousemove', resetIdle);
@@ -41,7 +39,7 @@ export default function App() {
       window.removeEventListener('touchstart', resetIdle);
       clearTimeout(timer);
     };
-  }, [mode, settings.ambientIdleTimeout]);
+  }, [mode]);
 
   const togglePanel = (panel: typeof activePanel) => {
     if (activePanel === panel) setActivePanel(null);
@@ -129,7 +127,7 @@ export default function App() {
         )}
 
         {/* Center Clock & Hero */}
-        <div className={`absolute inset-0 flex flex-col items-center justify-center transition-transform duration-1000 ease-out ${isFocusMode ? '-translate-y-[15%]' : ''}`}>
+        <div className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-1000 ease-out ${isFocusMode ? 'scale-[0.6] opacity-30 translate-y-[-5%]' : ''}`}>
            {settings.showGreeting && (
              <motion.h1 
                layoutId="main-greeting"
@@ -204,7 +202,7 @@ export default function App() {
                 {activePanel === 'timer' && (
                   <motion.div 
                     initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} 
-                    className={isFocusMode ? "fixed top-[60%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] bg-transparent pointer-events-auto scale-110 drop-shadow-2xl" : "absolute bottom-[120%] left-0 glass-panel p-8 rounded-[2rem] z-50 shadow-2xl"}
+                    className={isFocusMode ? "fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] bg-transparent pointer-events-auto scale-125 drop-shadow-2xl" : "absolute bottom-[120%] left-0 glass-panel p-8 rounded-[2rem] z-50 shadow-2xl"}
                   >
                     <Timer defaultFocus={settings.focusDuration} defaultBreak={settings.breakDuration} isFocusMode={isFocusMode} />
                   </motion.div>

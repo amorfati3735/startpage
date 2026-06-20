@@ -166,7 +166,7 @@ export function SettingsDrawer({
       </div>
 
       {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar">
+      <div className="flex-1 overflow-y-auto p-6 md:p-8 pb-4 custom-scrollbar">
         {tab === 'Appearance' && (
           <div className="space-y-12 animate-in fade-in slide-in-from-right-4 duration-300 pb-20">
             
@@ -354,15 +354,7 @@ export function SettingsDrawer({
                </div>
              </div>
 
-             <div className="mt-10">
-               <label className="block text-[11px] uppercase text-white/60 tracking-widest font-bold mb-4">Ambient Idle Timeout</label>
-               <select value={settings.ambientIdleTimeout ?? 300} onChange={e => setSettings({ ...settings, ambientIdleTimeout: Number(e.target.value) })} className="w-full bg-white/5 border border-white/5 p-5 rounded-2xl text-sm uppercase tracking-wider focus:bg-white/10 focus:outline-none focus:border-accent/50 cursor-pointer transition-all">
-                 <option value={30} className="bg-black text-white">30 Seconds</option>
-                 <option value={60} className="bg-black text-white">1 Minute</option>
-                 <option value={120} className="bg-black text-white">2 Minutes</option>
-                 <option value={300} className="bg-black text-white">5 Minutes</option>
-               </select>
-             </div>
+
           </div>
         )}
 
@@ -400,6 +392,10 @@ export function SettingsDrawer({
           </div>
         )}
       </div>
+
+      <button onClick={onClose} className="flex-shrink-0 w-full py-5 flex items-center justify-center gap-2 text-xs uppercase tracking-widest font-bold text-white/40 hover:text-white bg-white/[0.03] hover:bg-white/[0.07] border-t border-white/[0.06] transition-all active:scale-[0.98]" title="Close">
+        <X size={18} /> Close
+      </button>
     </motion.div>
   );
 }
