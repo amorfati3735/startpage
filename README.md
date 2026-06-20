@@ -1,6 +1,6 @@
-# flocus
+# startpage
 
-A brutalist startpage dashboard with clock, tasks, notepad, timer, and ambient mode.
+Brutalist dashboard with clock, tasks, notepad, shortcuts, timer, and ambient mode.
 
 ## usage
 
