@@ -10,6 +10,7 @@
 
 body {
   @apply font-mono text-white overflow-hidden bg-black selection:bg-accent selection:text-white;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 /* Brutalist tweaks */

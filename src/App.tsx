@@ -82,7 +82,7 @@ export default function App() {
   };
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden text-white font-mono bg-black selection:bg-accent selection:text-white">
+    <div className="relative w-screen h-dvh overflow-hidden text-white font-mono bg-black selection:bg-accent selection:text-white">
       
       {/* Background layer */}
       <div className="absolute inset-0 z-0 bg-neutral-950 transition-all duration-1000 ease-in-out" style={settings.bgType !== 'image' ? getBgStyle() : {}}>
