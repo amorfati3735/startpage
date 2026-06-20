@@ -24,20 +24,48 @@ function Toggle({ checked, onChange, label }: { checked: boolean, onChange: (v: 
 }
 
 function Slider({ label, value, min, max, unit, onChange }: { label: string, value: number, min: number, max: number, unit?: string, onChange: (v: number) => void }) {
+  const pct = ((value - min) / (max - min)) * 100;
   return (
-    <div className="py-2 w-full">
-      <div className="flex justify-between mb-3 text-[10px] md:text-[11px] uppercase tracking-widest">
+    <div className="py-3 w-full select-none">
+      <div className="flex justify-between mb-4 text-[10px] md:text-[11px] uppercase tracking-widest">
         <label className="text-white/60 font-medium">{label}</label>
-        <span className="text-accent font-bold">{value}{unit}</span>
+        <span className="text-accent font-bold tabular-nums">{value}{unit}</span>
       </div>
-      <div className="relative flex items-center w-full min-h-[24px]">
-        <input 
-          type="range" 
-          min={min} 
-          max={max} 
-          value={value} 
-          onChange={e => onChange(Number(e.target.value))} 
-          className="w-full h-1.5 bg-white/20 rounded-full appearance-none cursor-pointer accent-accent outline-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-accent [&::-webkit-slider-thumb]:rounded-full [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:bg-accent [&::-moz-range-thumb]:border-none [&::-moz-range-thumb]:rounded-full" 
+      <div className="relative flex items-center w-full min-h-[40px]">
+        <input
+          type="range"
+          min={min}
+          max={max}
+          value={value}
+          onChange={e => onChange(Number(e.target.value))}
+          style={{ background: `linear-gradient(to right, #7432FF ${pct}%, rgba(255,255,255,0.12) ${pct}%)` }}
+          className="
+            w-full h-2 rounded-full appearance-none cursor-pointer outline-none
+            [&::-webkit-slider-thumb]:appearance-none
+            [&::-webkit-slider-thumb]:w-7
+            [&::-webkit-slider-thumb]:h-7
+            [&::-webkit-slider-thumb]:rounded-full
+            [&::-webkit-slider-thumb]:bg-white
+            [&::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(116,50,255,0.25),0_2px_8px_rgba(0,0,0,0.4)]
+            [&::-webkit-slider-thumb]:border-2
+            [&::-webkit-slider-thumb]:border-accent
+            [&::-webkit-slider-thumb]:transition-shadow
+            [&::-webkit-slider-thumb]:duration-200
+            hover:[&::-webkit-slider-thumb]:shadow-[0_0_0_6px_rgba(116,50,255,0.3),0_4px_12px_rgba(0,0,0,0.5)]
+            active:[&::-webkit-slider-thumb]:scale-110
+            [&::-webkit-slider-thumb]:active:shadow-[0_0_0_8px_rgba(116,50,255,0.35),0_4px_16px_rgba(0,0,0,0.5)]
+            [&::-moz-range-thumb]:w-7
+            [&::-moz-range-thumb]:h-7
+            [&::-moz-range-thumb]:rounded-full
+            [&::-moz-range-thumb]:bg-white
+            [&::-moz-range-thumb]:border-2
+            [&::-moz-range-thumb]:border-accent
+            [&::-moz-range-thumb]:shadow-[0_0_0_4px_rgba(116,50,255,0.25),0_2px_8px_rgba(0,0,0,0.4)]
+            [&::-moz-range-track]:h-2
+            [&::-moz-range-track]:rounded-full
+            [&::-moz-range-track]:bg-transparent
+            transition-all duration-150
+          "
         />
       </div>
     </div>
