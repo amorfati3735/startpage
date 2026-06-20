@@ -40,28 +40,27 @@ function Slider({ label, value, min, max, unit, onChange }: { label: string, val
           onChange={e => onChange(Number(e.target.value))}
           style={{ background: `linear-gradient(to right, #7432FF ${pct}%, rgba(255,255,255,0.12) ${pct}%)` }}
           className="
-            w-full h-2 rounded-full appearance-none cursor-pointer outline-none
+            w-full h-1.5 rounded-full appearance-none cursor-pointer outline-none
             [&::-webkit-slider-thumb]:appearance-none
-            [&::-webkit-slider-thumb]:w-7
-            [&::-webkit-slider-thumb]:h-7
+            [&::-webkit-slider-thumb]:w-5
+            [&::-webkit-slider-thumb]:h-5
             [&::-webkit-slider-thumb]:rounded-full
             [&::-webkit-slider-thumb]:bg-white
-            [&::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(116,50,255,0.25),0_2px_8px_rgba(0,0,0,0.4)]
-            [&::-webkit-slider-thumb]:border-2
-            [&::-webkit-slider-thumb]:border-accent
-            [&::-webkit-slider-thumb]:transition-shadow
-            [&::-webkit-slider-thumb]:duration-200
-            hover:[&::-webkit-slider-thumb]:shadow-[0_0_0_6px_rgba(116,50,255,0.3),0_4px_12px_rgba(0,0,0,0.5)]
-            active:[&::-webkit-slider-thumb]:scale-110
-            [&::-webkit-slider-thumb]:active:shadow-[0_0_0_8px_rgba(116,50,255,0.35),0_4px_16px_rgba(0,0,0,0.5)]
-            [&::-moz-range-thumb]:w-7
-            [&::-moz-range-thumb]:h-7
+            [&::-webkit-slider-thumb]:shadow-[0_2px_8px_rgba(0,0,0,0.5)]
+            [&::-webkit-slider-thumb]:border
+            [&::-webkit-slider-thumb]:border-white/20
+            [&::-webkit-slider-thumb]:transition-all
+            [&::-webkit-slider-thumb]:duration-150
+            hover:[&::-webkit-slider-thumb]:shadow-[0_0_0_5px_rgba(116,50,255,0.2),0_2px_8px_rgba(0,0,0,0.5)]
+            [&::-webkit-slider-thumb]:active:scale-95
+            [&::-moz-range-thumb]:w-5
+            [&::-moz-range-thumb]:h-5
             [&::-moz-range-thumb]:rounded-full
             [&::-moz-range-thumb]:bg-white
-            [&::-moz-range-thumb]:border-2
-            [&::-moz-range-thumb]:border-accent
-            [&::-moz-range-thumb]:shadow-[0_0_0_4px_rgba(116,50,255,0.25),0_2px_8px_rgba(0,0,0,0.4)]
-            [&::-moz-range-track]:h-2
+            [&::-moz-range-thumb]:border
+            [&::-moz-range-thumb]:border-white/20
+            [&::-moz-range-thumb]:shadow-[0_2px_8px_rgba(0,0,0,0.5)]
+            [&::-moz-range-track]:h-1.5
             [&::-moz-range-track]:rounded-full
             [&::-moz-range-track]:bg-transparent
             transition-all duration-150
@@ -136,8 +135,9 @@ export function SettingsDrawer({
   return (
     <motion.div 
       initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-      className="fixed inset-y-0 right-0 w-full sm:w-[500px] bg-neutral-950/95 backdrop-blur-3xl border-l border-white/10 flex flex-col z-50 shadow-2xl"
+      className="fixed inset-y-0 right-0 w-full sm:w-[500px] bg-black/60 backdrop-blur-xl border-l border-white/[0.06] flex flex-col z-50 shadow-2xl"
     >
+      <div className="absolute inset-0 bg-gradient-to-b from-white/[0.04] to-transparent pointer-events-none" />
       {/* Header */}
       <div className="flex-shrink-0 flex justify-between items-center p-6 border-b border-white/10">
         <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-white flex items-center gap-3">
